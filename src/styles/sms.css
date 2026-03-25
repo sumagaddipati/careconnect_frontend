@@ -1,0 +1,35 @@
+.sms-btn {
+  padding: 6px 12px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.sms-box {
+  margin-top: 10px;
+  background: #f4f7fb;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.sms-box textarea {
+  width: 100%;
+  height: 60px;
+  padding: 6px;
+}
+
+.sms-actions {
+  margin-top: 6px;
+  display: flex;
+  gap: 10px;
+}
+
+.sms-actions button {
+  padding: 6px 10px;
+}
+
+.sms-actions .cancel {
+  background: #ccc;
+}
