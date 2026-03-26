@@ -1,66 +1,63 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import "../../styles/family.css";
 
-function FamilyDashboard(){
+function FamilyDashboard() {
 
-const [profile,setProfile] = useState(null);
-const navigate = useNavigate();
-const familyId = localStorage.getItem("userId");
+  const [profile, setProfile] = useState(null);
+  const navigate = useNavigate();
+  const familyId = localStorage.getItem("userId");
 
-useEffect(()=>{
-api.get(`/family/profile/${familyId}`)
-.then(res=>setProfile(res.data));
-},[]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await api.get(`/family/profile/${familyId}`);
+      setProfile(res.data);
+    };
 
-if(!profile)
-return <div className="family-page">No senior connected</div>;
+    if (familyId) fetchData();
+  }, [familyId]); // ✅ FIXED
 
-const riskClass =
-profile.riskLevel==="HIGH" ? "family-risk-high":
-profile.riskLevel==="MEDIUM" ? "family-risk-medium":
-"family-risk-low";
+  if (!profile)
+    return <div className="family-page">No senior connected</div>;
 
-return(
+  const riskClass =
+    profile.riskLevel === "HIGH" ? "family-risk-high" :
+    profile.riskLevel === "MEDIUM" ? "family-risk-medium" :
+    "family-risk-low";
 
-<div className="family-page">
+  return (
+    <div className="family-page">
 
-<h1>Family Dashboard</h1>
+      <h1>Family Dashboard</h1>
 
-<div className="family-card">
+      <div className="family-card">
+        <h2>Senior Overview</h2>
 
-<h2>Senior Overview</h2>
+        <p><b>Name:</b> {profile.fullName}</p>
+        <p><b>Age:</b> {profile.age}</p>
+        <p><b>City:</b> {profile.city}</p>
+        <p className={riskClass}>Risk Level: {profile.riskLevel}</p>
+      </div>
 
-<p><b>Name:</b> {profile.fullName}</p>
-<p><b>Age:</b> {profile.age}</p>
-<p><b>City:</b> {profile.city}</p>
-<p className={riskClass}>Risk Level: {profile.riskLevel}</p>
+      <div className="family-card">
+        <h2>Quick Actions</h2>
 
-</div>
+        <button onClick={() => navigate("/family/profile")}>
+          View Full Profile
+        </button>
 
-<div className="family-card">
+        <button onClick={() => navigate("/family/create-request")}>
+          Create Help Request
+        </button>
 
-<h2>Quick Actions</h2>
+        <button onClick={() => navigate("/family/requests")}>
+          View Requests
+        </button>
+      </div>
 
-<button onClick={()=>navigate("/family/profile")}>
-View Full Profile
-</button>
-
-<button onClick={()=>navigate("/family/create-request")}>
-Create Help Request
-</button>
-
-<button onClick={()=>navigate("/family/requests")}>
-View Requests
-</button>
-
-</div>
-
-</div>
-
-)
-
+    </div>
+  );
 }
 
-export default FamilyDashboard
+export default FamilyDashboard;

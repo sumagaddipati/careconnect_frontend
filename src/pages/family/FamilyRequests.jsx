@@ -1,62 +1,57 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../api/api";
 import "../../styles/family.css";
 
-function FamilyRequests(){
+function FamilyRequests() {
 
-  const [requests,setRequests] = useState([]);
+  const [requests, setRequests] = useState([]);
   const familyId = localStorage.getItem("userId");
 
-  useEffect(()=>{
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await api.get(`/family/requests/${familyId}`);
+      setRequests(res.data);
+    };
 
-    api.get(`/family/requests/${familyId}`)
-      .then(res => setRequests(res.data));
+    if (familyId) fetchData();
+  }, [familyId]); // ✅ FIXED
 
-  },[]);
-
-  return(
-
+  return (
     <div className="page">
 
       <h2>Requests</h2>
 
-      {requests.map(r=>{
+      {requests.map(r => {
 
         const color =
-          r.status === "COMPLETED" ? "green":
-          r.status === "ACCEPTED" ? "blue":
+          r.status === "COMPLETED" ? "green" :
+          r.status === "ACCEPTED" ? "blue" :
           "orange";
 
-        return(
-
+        return (
           <div className="card" key={r.id}>
 
             <h3>{r.title}</h3>
-
             <p>{r.description}</p>
-
             <p>Location: {r.location}</p>
 
-            <p style={{color}}>
+            <p style={{ color }}>
               Status: {r.status}
             </p>
 
             {r.emergency && (
-              <p style={{color:"red"}}>
+              <p style={{ color: "red" }}>
                 🚨 Emergency
               </p>
             )}
 
           </div>
-
         );
 
       })}
 
     </div>
-
   );
-
 }
 
 export default FamilyRequests;

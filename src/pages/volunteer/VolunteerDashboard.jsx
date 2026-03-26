@@ -6,39 +6,30 @@ function VolunteerDashboard() {
   const userId = Number(localStorage.getItem("userId"));
   const [status, setStatus] = useState("LOADING");
 
-  const fetchProfile = async () => {
-    try {
-      const res = await api.get(`/volunteer/profile/${userId}`);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get(`/volunteer/profile/${userId}`);
 
-      console.log("PROFILE:", res.data);
+        if (!res.data || !res.data.userId) {
+          setStatus("NO_PROFILE");
+          return;
+        }
 
-      if (!res.data || !res.data.userId) {
+        setStatus("ACTIVE");
+
+      } catch (err) {
+        console.error(err);
         setStatus("NO_PROFILE");
-        return;
       }
+    };
 
-      // 🔥 SIMPLE LOGIC
-      setStatus("ACTIVE");
+    if (userId) fetchProfile();
 
-    } catch (err) {
-      console.error(err);
-      setStatus("NO_PROFILE");
-    }
-  };
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  // optional auto refresh
-  useEffect(() => {
     const interval = setInterval(fetchProfile, 5000);
     return () => clearInterval(interval);
-  }, []);
 
-  // ======================
-  // UI STATES
-  // ======================
+  }, [userId]); // ✅ FIXED (single useEffect)
 
   if (status === "LOADING") return <h2>Loading...</h2>;
 
@@ -53,42 +44,27 @@ function VolunteerDashboard() {
     );
   }
 
-  // ✅ ACTIVE (MAIN DASHBOARD)
   return (
-  <div>
+    <div>
 
-    <h2>Welcome Volunteer 🚀</h2>
+      <h2>Welcome Volunteer 🚀</h2>
 
-    <a href="/volunteer/profile">
-      <button>My Profile</button>
-    </a>
+      <a href="/volunteer/profile"><button>My Profile</button></a>
+      <br /><br />
 
-    <br /><br />
+      <a href="/volunteer/requests"><button>Requests</button></a>
+      <br /><br />
 
-    <a href="/volunteer/requests">
-      <button>Requests</button>
-    </a>
+      <a href="/volunteer/mytasks"><button>My Tasks</button></a>
+      <br /><br />
 
-    <br /><br />
+      <a href="/volunteer/history"><button>History</button></a>
+      <br /><br />
 
-    <a href="/volunteer/mytasks">
-      <button>My Tasks</button>
-    </a>
+      <a href="/volunteer/messages"><button>Messages</button></a>
 
-    <br /><br />
-
-    <a href="/volunteer/history">
-      <button>History</button>
-    </a>
-
-    <br /><br />
-
-    <a href="/volunteer/messages">
-      <button>Messages</button>
-    </a>
-
-  </div>
-);
+    </div>
+  );
 }
 
 export default VolunteerDashboard;
