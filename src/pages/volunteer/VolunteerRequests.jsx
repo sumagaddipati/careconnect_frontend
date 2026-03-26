@@ -7,12 +7,14 @@ function VolunteerRequests() {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
+    if (!userId) return;
+
     api.get(`/volunteer/requests/${userId}`)
       .then(res => setRequests(res.data))
       .catch(err => {
         alert("Not approved yet ❌");
       });
-  }, []);
+  }, [userId]); // ✅ FIXED
 
   const accept = async (id) => {
     const res = await api.post(`/volunteer/accept/${id}/${userId}`);
