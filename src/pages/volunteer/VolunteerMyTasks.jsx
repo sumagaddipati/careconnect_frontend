@@ -2,32 +2,47 @@ import { useEffect, useState } from "react";
 import api from "../../api/api";
 import "../../styles/volunteer.css";
 
-function VolunteerHistory() {
+function VolunteerMyTasks() {
 
   const userId = Number(localStorage.getItem("userId"));
-  const [history, setHistory] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    const loadHistory = async () => {
-      const res = await api.get(`/volunteer/history/${userId}`);
-      setHistory(res.data);
+    const fetchData = async () => {
+      const res = await api.get(`/volunteer/mytasks/${userId}`);
+      setTasks(res.data);
     };
 
-    if (userId) loadHistory();
-  }, [userId]); // ✅ fixed
+    if (userId) fetchData();
+  }, [userId]);
+
+  const completeTask = async (id) => {
+    try {
+      await api.post(`/volunteer/complete/${id}`);
+      alert("Marked as Done ✅");
+
+      setTasks(prev => prev.filter(t => t.id !== id));
+    } catch {
+      alert("Error ❌");
+    }
+  };
 
   return (
     <div className="vol-page">
       <div className="vol-card">
 
-        <h2>Completed Tasks</h2>
+        <h2>My Tasks</h2>
 
-        {history.length === 0 && <p>No completed tasks</p>}
+        {tasks.length === 0 && <p>No active tasks</p>}
 
-        {history.map(h => (
-          <div key={h.id} className="task-card">
-            <h4>{h.employeeName}</h4>
-            <p>Status: ✅ Completed</p>
+        {tasks.map(t => (
+          <div key={t.id} className="task-card">
+            <h4>{t.employeeName}</h4>
+            <p>Status: {t.status}</p>
+
+            <button onClick={() => completeTask(t.id)}>
+              Done
+            </button>
           </div>
         ))}
 
@@ -36,4 +51,4 @@ function VolunteerHistory() {
   );
 }
 
-export default VolunteerHistory;
+export default VolunteerMyTasks;

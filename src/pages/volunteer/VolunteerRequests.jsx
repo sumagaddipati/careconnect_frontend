@@ -7,9 +7,7 @@ function VolunteerRequests() {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    if (!userId) return;
-
-    const loadRequests = async () => {
+    const fetchData = async () => {
       try {
         const res = await api.get(`/volunteer/requests/${userId}`);
         setRequests(res.data);
@@ -18,8 +16,8 @@ function VolunteerRequests() {
       }
     };
 
-    loadRequests();
-  }, [userId]); // ✅ fixed
+    if (userId) fetchData();
+  }, [userId]);
 
   const accept = async (id) => {
     const res = await api.post(`/volunteer/accept/${id}/${userId}`);

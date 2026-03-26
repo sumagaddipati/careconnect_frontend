@@ -27,7 +27,7 @@ function VolunteerProfile() {
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchData = async () => {
       try {
         const res = await api.get(`/volunteer/profile/${userId}`);
         if (res.data) setProfile(res.data);
@@ -36,8 +36,8 @@ function VolunteerProfile() {
       }
     };
 
-    if (userId) fetchProfile();
-  }, [userId]); // ✅ fixed
+    if (userId) fetchData();
+  }, [userId]);
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -113,7 +113,7 @@ function VolunteerProfile() {
 
         {profile.documentPath && (
           <img
-            src={`${process.env.REACT_APP_API_URL}/${profile.documentPath}`} // ✅ FIXED (no localhost)
+            src={`${process.env.REACT_APP_API_URL}/${profile.documentPath}`}
             className="vol-image"
             alt=""
           />

@@ -8,13 +8,13 @@ function VolunteerHistory() {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    const loadHistory = async () => {
+    const fetchData = async () => {
       const res = await api.get(`/volunteer/history/${userId}`);
       setHistory(res.data);
     };
 
-    if (userId) loadHistory();
-  }, [userId]); // ✅ fixed
+    if (userId) fetchData();
+  }, [userId]);
 
   return (
     <div className="vol-page">
