@@ -27,17 +27,17 @@ function VolunteerProfile() {
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get(`/volunteer/profile/${userId}`);
+        if (res.data) setProfile(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  const fetchProfile = async () => {
-    try {
-      const res = await api.get(`/volunteer/profile/${userId}`);
-      if (res.data) setProfile(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    if (userId) fetchProfile();
+  }, [userId]); // ✅ fixed
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -100,25 +100,12 @@ function VolunteerProfile() {
 
         </div>
 
-        {/* CHECKBOX */}
         <div className="vol-checkbox-group">
-          <label className="vol-checkbox">
-            <input type="checkbox" name="firstAidCertified" checked={profile.firstAidCertified || false} onChange={handleCheck} />
-            First Aid
-          </label>
-
-          <label className="vol-checkbox">
-            <input type="checkbox" name="medicalTraining" checked={profile.medicalTraining || false} onChange={handleCheck} />
-            Medical
-          </label>
-
-          <label className="vol-checkbox">
-            <input type="checkbox" name="hasVehicle" checked={profile.hasVehicle || false} onChange={handleCheck} />
-            Vehicle
-          </label>
+          <label><input type="checkbox" name="firstAidCertified" checked={profile.firstAidCertified || false} onChange={handleCheck}/> First Aid</label>
+          <label><input type="checkbox" name="medicalTraining" checked={profile.medicalTraining || false} onChange={handleCheck}/> Medical</label>
+          <label><input type="checkbox" name="hasVehicle" checked={profile.hasVehicle || false} onChange={handleCheck}/> Vehicle</label>
         </div>
 
-        {/* IMAGE */}
         <div className="vol-file">
           <p>Upload Photo</p>
           <input type="file" onChange={handleFile} />
@@ -126,7 +113,7 @@ function VolunteerProfile() {
 
         {profile.documentPath && (
           <img
-            src={`http://localhost:8080/${profile.documentPath}`}
+            src={`${process.env.REACT_APP_API_URL}/${profile.documentPath}`} // ✅ FIXED (no localhost)
             className="vol-image"
             alt=""
           />

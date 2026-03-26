@@ -9,12 +9,17 @@ function VolunteerRequests() {
   useEffect(() => {
     if (!userId) return;
 
-    api.get(`/volunteer/requests/${userId}`)
-      .then(res => setRequests(res.data))
-      .catch(err => {
+    const loadRequests = async () => {
+      try {
+        const res = await api.get(`/volunteer/requests/${userId}`);
+        setRequests(res.data);
+      } catch {
         alert("Not approved yet ❌");
-      });
-  }, [userId]); // ✅ FIXED
+      }
+    };
+
+    loadRequests();
+  }, [userId]); // ✅ fixed
 
   const accept = async (id) => {
     const res = await api.post(`/volunteer/accept/${id}/${userId}`);
@@ -36,7 +41,6 @@ function VolunteerRequests() {
           <button onClick={() => accept(r.id)}>Accept</button>
         </div>
       ))}
-
     </div>
   );
 }

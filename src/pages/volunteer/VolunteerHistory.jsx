@@ -8,13 +8,13 @@ function VolunteerHistory() {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    loadHistory();
-  }, []);
+    const loadHistory = async () => {
+      const res = await api.get(`/volunteer/history/${userId}`);
+      setHistory(res.data);
+    };
 
-  const loadHistory = async () => {
-    const res = await api.get(`/volunteer/history/${userId}`);
-    setHistory(res.data);
-  };
+    if (userId) loadHistory();
+  }, [userId]); // ✅ fixed
 
   return (
     <div className="vol-page">
@@ -26,11 +26,8 @@ function VolunteerHistory() {
 
         {history.map(h => (
           <div key={h.id} className="task-card">
-
             <h4>{h.employeeName}</h4>
-
             <p>Status: ✅ Completed</p>
-
           </div>
         ))}
 
