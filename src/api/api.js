@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "https://careconnect-backend-1-603l.onrender.com/api",
 });
 
 api.interceptors.request.use(config => {
@@ -13,4 +13,3 @@ api.interceptors.request.use(config => {
 });
 
 export default api;
-
