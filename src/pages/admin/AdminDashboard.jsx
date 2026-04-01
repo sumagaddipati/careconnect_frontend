@@ -16,30 +16,44 @@ function AdminDashboard() {
     { title: "Manage Volunteers", path: "/admin/volunteers" },
     { title: "Manage Seniors", path: "/admin/seniors" },
     { title: "Send Message", path: "/admin/messages" }
-    
   ];
 
   return (
-    <div className="admin-page">
+    <div className="admin-container">
+
       <h1 className="admin-title">Admin Dashboard</h1>
 
-      <div className="admin-grid">
-        <div className="admin-card">Users: {stats.totalUsers}</div>
-        <div className="admin-card">Requests: {stats.totalRequests}</div>
-        <div className="admin-card">Active: {stats.activeRequests}</div>
+      {/* 🔥 STATS CARDS */}
+      <div className="stats-grid">
+        <div className="glass-card">
+          <h3>Users</h3>
+          <p>{stats.totalUsers || 0}</p>
+        </div>
+
+        <div className="glass-card">
+          <h3>Requests</h3>
+          <p>{stats.totalRequests || 0}</p>
+        </div>
+
+        <div className="glass-card">
+          <h3>Active</h3>
+          <p>{stats.activeRequests || 0}</p>
+        </div>
       </div>
 
-      <div className="admin-grid" style={{ marginTop: "20px" }}>
+      {/* 🔥 ACTION CARDS */}
+      <div className="action-grid">
         {cards.map((c, i) => (
           <div
             key={i}
-            className="admin-card"
+            className="glass-card clickable"
             onClick={() => navigate(c.path)}
           >
             {c.title}
           </div>
         ))}
       </div>
+
     </div>
   );
 }

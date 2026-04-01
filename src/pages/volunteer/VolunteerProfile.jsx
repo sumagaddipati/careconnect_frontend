@@ -74,59 +74,98 @@ function VolunteerProfile() {
   };
 
   return (
-    <div className="vol-page">
-      <div className="vol-card">
+  <div className="layout">
 
-        <h2 className="vol-title">Volunteer Profile</h2>
+    {/* SIDEBAR */}
+    <aside className="sidebar">
+      <h2 className="logo">🚀 Volunteer</h2>
 
-        <div className="vol-grid">
+      <button onClick={() => navigate("/volunteer/profile")}>My Profile</button>
+      <button onClick={() => navigate("/volunteer/requests")}>Requests</button>
+      <button onClick={() => navigate("/volunteer/tasks")}>My Tasks</button>
+      <button onClick={() => navigate("/volunteer/history")}>History</button>
+      <button onClick={() => navigate("/volunteer/messages")}>Messages</button>
+    </aside>
 
-          <input className="vol-input" name="fullName" value={profile.fullName || ""} placeholder="Full Name" onChange={handleChange} />
-          <input className="vol-input" name="age" value={profile.age || ""} placeholder="Age" onChange={handleChange} />
+    {/* MAIN */}
+    <main className="main">
 
-          <input className="vol-input" name="phone" value={profile.phone || ""} placeholder="Phone" onChange={handleChange} />
-          <input className="vol-input" name="city" value={profile.city || ""} placeholder="City" onChange={handleChange} />
+      <h1 className="title">Volunteer Profile</h1>
 
-          <input className="vol-input vol-grid-full" name="address" value={profile.address || ""} placeholder="Address" onChange={handleChange} />
+      <div className="profile-card">
 
-          <select className="vol-select" name="gender" value={profile.gender || ""} onChange={handleChange}>
+        {/* GRID */}
+        <div className="form-grid">
+
+          <input name="fullName" value={profile.fullName || ""} placeholder="Full Name" onChange={handleChange} />
+          <input name="age" value={profile.age || ""} placeholder="Age" onChange={handleChange} />
+
+          <input name="phone" value={profile.phone || ""} placeholder="Phone" onChange={handleChange} />
+          <input name="city" value={profile.city || ""} placeholder="City" onChange={handleChange} />
+
+          <input className="full" name="address" value={profile.address || ""} placeholder="Address" onChange={handleChange} />
+
+          <select name="gender" value={profile.gender || ""} onChange={handleChange}>
             <option value="">Gender</option>
             <option value="MALE">Male</option>
             <option value="FEMALE">Female</option>
           </select>
 
-          <input className="vol-input" name="vehicleType" value={profile.vehicleType || ""} placeholder="Vehicle Type" onChange={handleChange} />
-
-          <textarea className="vol-textarea vol-grid-full" name="experienceNotes" value={profile.experienceNotes || ""} placeholder="Experience" onChange={handleChange} />
+          <input name="vehicleType" value={profile.vehicleType || ""} placeholder="Vehicle Type" onChange={handleChange} />
 
         </div>
 
-        <div className="vol-checkbox-group">
-          <label><input type="checkbox" name="firstAidCertified" checked={profile.firstAidCertified || false} onChange={handleCheck}/> First Aid</label>
-          <label><input type="checkbox" name="medicalTraining" checked={profile.medicalTraining || false} onChange={handleCheck}/> Medical</label>
-          <label><input type="checkbox" name="hasVehicle" checked={profile.hasVehicle || false} onChange={handleCheck}/> Vehicle</label>
+        {/* EXPERIENCE */}
+        <textarea
+          name="experienceNotes"
+          value={profile.experienceNotes || ""}
+          placeholder="Experience"
+          onChange={handleChange}
+        />
+
+        {/* CHECKBOX */}
+        <div className="checks">
+          <label>
+            <input type="checkbox" name="firstAidCertified" checked={profile.firstAidCertified || false} onChange={handleCheck}/>
+            First Aid
+          </label>
+
+          <label>
+            <input type="checkbox" name="medicalTraining" checked={profile.medicalTraining || false} onChange={handleCheck}/>
+            Medical
+          </label>
+
+          <label>
+            <input type="checkbox" name="hasVehicle" checked={profile.hasVehicle || false} onChange={handleCheck}/>
+            Vehicle
+          </label>
         </div>
 
-        <div className="vol-file">
+        {/* FILE */}
+        <div className="file-upload">
           <p>Upload Photo</p>
           <input type="file" onChange={handleFile} />
         </div>
 
+        {/* IMAGE PREVIEW */}
         {profile.documentPath && (
           <img
             src={`${process.env.REACT_APP_API_URL}/${profile.documentPath}`}
-            className="vol-image"
-            alt=""
+            className="preview-img"
+            alt="profile"
           />
         )}
 
-        <button className="vol-btn" onClick={saveProfile}>
+        {/* BUTTON */}
+        <button className="primary-btn" onClick={saveProfile}>
           {profile.id ? "Update Profile" : "Submit"}
         </button>
 
       </div>
-    </div>
-  );
+
+    </main>
+  </div>
+);
 }
 
 export default VolunteerProfile;
