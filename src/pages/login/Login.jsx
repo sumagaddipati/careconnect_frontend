@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
+import "../../styles/Auth.css";
 
 function Login() {
 
@@ -35,7 +36,7 @@ function Login() {
         navigate("/volunteer");
 
       else if(role === "FAMILY")
-        navigate("/family");   // NEW ROLE
+        navigate("/family");
 
       else
         alert("Unknown role");
@@ -55,34 +56,34 @@ function Login() {
 
   return(
 
-    <div style={styles.page}>
+    <div className="auth-page">
 
-      <div style={styles.card}>
+      <div className="auth-card">
 
-        <h2 style={styles.title}>
+        <h2 className="auth-title">
           CareConnect Login
         </h2>
 
         <input
-          style={styles.input}
+          className="auth-input"
           placeholder="Email"
           value={email}
           onChange={e=>setEmail(e.target.value)}
         />
 
         <input
-          style={styles.input}
+          className="auth-input"
           type="password"
           placeholder="Password"
           value={password}
           onChange={e=>setPassword(e.target.value)}
         />
 
-        <button style={styles.button} onClick={login}>
+        <button className="auth-button" onClick={login}>
           Login
         </button>
 
-        <p style={styles.link} onClick={()=>navigate("/register")}>
+        <p className="auth-link" onClick={()=>navigate("/register")}>
           New user? Register
         </p>
 
@@ -95,52 +96,3 @@ function Login() {
 }
 
 export default Login;
-
-const styles = {
-
-  page:{
-    height:"100vh",
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
-    background:"#f0f2f5"
-  },
-
-  card:{
-    width:350,
-    padding:30,
-    background:"#fff",
-    borderRadius:8,
-    boxShadow:"0 0 15px rgba(0,0,0,0.1)"
-  },
-
-  title:{
-    textAlign:"center",
-    marginBottom:20
-  },
-
-  input:{
-    width:"100%",
-    padding:10,
-    marginBottom:15,
-    fontSize:14
-  },
-
-  button:{
-    width:"100%",
-    padding:10,
-    background:"#1976d2",
-    color:"#fff",
-    border:"none",
-    cursor:"pointer",
-    fontSize:16
-  },
-
-  link:{
-    marginTop:15,
-    textAlign:"center",
-    color:"#1976d2",
-    cursor:"pointer"
-  }
-
-};

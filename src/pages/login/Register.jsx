@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
+import "../../styles/Auth.css";
 
 function Register() {
 
@@ -40,75 +41,67 @@ function Register() {
 
   return(
 
-    <div style={styles.page}>
+    <div className="auth-page">
 
-      <div style={styles.card}>
+      <div className="auth-card">
 
-        <h2 style={styles.title}>
+        <h2 className="auth-title">
           CareConnect Register
         </h2>
 
         <input
-          style={styles.input}
+          className="auth-input"
           placeholder="Name"
           onChange={e=>setForm({...form,name:e.target.value})}
         />
 
         <input
-          style={styles.input}
+          className="auth-input"
           placeholder="Email"
           onChange={e=>setForm({...form,email:e.target.value})}
         />
 
         <input
-          style={styles.input}
+          className="auth-input"
           type="password"
           placeholder="Password"
           onChange={e=>setForm({...form,password:e.target.value})}
         />
 
         <select
-          style={styles.input}
+          className="auth-input"
           onChange={e=>setForm({...form,role:e.target.value})}
         >
-
           <option value="SENIOR">Senior</option>
           <option value="VOLUNTEER">Volunteer</option>
           <option value="FAMILY">Family</option>
           <option value="ADMIN">Admin</option>
-
         </select>
-
-
-        {/* FAMILY CONNECT SECTION */}
 
         {form.role === "FAMILY" && (
 
           <>
-
             <input
-              style={styles.input}
+              className="auth-input"
               placeholder="Senior Name"
               onChange={e=>setForm({...form,seniorName:e.target.value})}
             />
 
             <input
-              style={styles.input}
+              className="auth-input"
               placeholder="Senior ID (Example: CC-48216)"
               onChange={e=>setForm({...form,seniorCode:e.target.value})}
             />
-
           </>
 
         )}
 
-
-        <button style={styles.button} onClick={register}>
+        <button className="auth-button" onClick={register}>
           Register
         </button>
 
         <p
-          style={styles.link}
+          className="auth-link"
           onClick={()=>navigate("/")}
         >
           Already have an account? Login
@@ -123,57 +116,3 @@ function Register() {
 }
 
 export default Register;
-
-
-
-const styles = {
-
-  page:{
-    height:"100vh",
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
-    background:"#f0f2f5"
-  },
-
-  card:{
-    width:380,
-    padding:30,
-    background:"#fff",
-    borderRadius:10,
-    boxShadow:"0 0 15px rgba(0,0,0,0.1)"
-  },
-
-  title:{
-    textAlign:"center",
-    marginBottom:20
-  },
-
-  input:{
-    width:"100%",
-    padding:10,
-    marginBottom:15,
-    fontSize:14,
-    border:"1px solid #ccc",
-    borderRadius:5
-  },
-
-  button:{
-    width:"100%",
-    padding:12,
-    background:"#1976d2",
-    color:"#fff",
-    border:"none",
-    borderRadius:5,
-    cursor:"pointer",
-    fontSize:16
-  },
-
-  link:{
-    marginTop:15,
-    textAlign:"center",
-    color:"#1976d2",
-    cursor:"pointer"
-  }
-
-};
